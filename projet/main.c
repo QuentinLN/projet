@@ -19,7 +19,7 @@
 #include <i2c_bus.h>
 #include <sensors/imu.h>
 
-static imu_msg_t imu_values;
+
 messagebus_t bus;
 MUTEX_DECL(bus_lock);
 CONDVAR_DECL(bus_condvar);
@@ -28,35 +28,6 @@ static float angle_degre=0;
 extern parameter_namespace_t parameter_root;
 
 
-void imu_compute_offset(messagebus_topic_t * imu_topic, uint16_t nb_samples){
-
-	//creates temporary array used to store the sum for the average
-	int32_t temp_acc_offset[NB_AXIS] = {0};
-	int32_t temp_gyro_offset[NB_AXIS] = {0};
-
-	//sums nb_samples
-	for(uint16_t i = 0 ; i < nb_samples ; i++){
-		//waits for new measurements for IMU using MessageBus library
-		messagebus_topic_wait(imu_topic, &imu_values, sizeof(imu_values));
-		for(uint8_t j = 0 ; j < NB_AXIS ; j++){
-			temp_acc_offset[j] += imu_values.acc_raw[j];
-			temp_gyro_offset[j] += imu_values.gyro_raw[j];
-		}
-	}
-	//finishes the average by dividing the sums by nb_samples
-	//then stores the values to the good fields of imu_values to keep them
-	for(uint8_t j = 0 ; j < NB_AXIS ; j++){
-		temp_acc_offset[j] /= nb_samples;
-		temp_gyro_offset[j] /= nb_samples;
-
-		imu_values.acc_offset[j] = temp_acc_offset[j];
-		imu_values.gyro_offset[j] = temp_gyro_offset[j];
-	}
-	//specific case for the z axis because it should not be zero but -1g
-	//deletes the standard gravity to have only the offset
-
-	imu_values.acc_offset[Z_AXIS] += (MAX_INT16 / RES_2G); //16384 = 1g with a scale of 2G
-}
 
 static void timer11_start(void){
     //General Purpose Timer configuration

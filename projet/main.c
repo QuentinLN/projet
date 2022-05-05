@@ -25,9 +25,6 @@ MUTEX_DECL(bus_lock);
 CONDVAR_DECL(bus_condvar);
 
 static float angle_degre=0;
-extern parameter_namespace_t parameter_root;
-
-
 
 static void timer11_start(void){
     //General Purpose Timer configuration
@@ -67,8 +64,8 @@ void printangle(imu_msg_t *imu_values){
     }else{
     	angle_degre=0;
     }
-    //chprintf((BaseSequentialStream *)&SD3, "%Angle>10%.2f carre%.2f  Angle%.2f\r\n\n",
-    //		angle_degre,sqrtf(fabs(accel[X_AXIS])*fabs(accel[X_AXIS]) + fabs(accel[Y_AXIS])*fabs(accel[Y_AXIS])),fabs(atan2(accel[X_AXIS], accel[Y_AXIS]))*360/(2*M_PI)-thresholddegre);
+    chprintf((BaseSequentialStream *)&SD3, "%Angle>10%.2f carre%.2f  Angle%.2f\r\n\n",
+    		angle_degre,sqrtf(fabs(accel[X_AXIS])*fabs(accel[X_AXIS]) + fabs(accel[Y_AXIS])*fabs(accel[Y_AXIS])),fabs(atan2(accel[X_AXIS], accel[Y_AXIS]))*360/(2*M_PI)-thresholddegre);
 
 }
 
@@ -136,7 +133,7 @@ void show_gravity(imu_msg_t *imu_values){
     }
 
     //to see the duration on the console
-    chprintf((BaseSequentialStream *)&SD3, "time = %dus\n",time);
+    //chprintf((BaseSequentialStream *)&SD3, "time = %dus\n",time);
     //we invert the values because a led is turned on if the signal is low
     palWritePad(GPIOD, GPIOD_LED1, led1 ? 0 : 1);
     palWritePad(GPIOD, GPIOD_LED3, led3 ? 0 : 1);

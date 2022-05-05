@@ -17,7 +17,7 @@
 
 #include <math.h>
 #include <i2c_bus.h>
-#include <sensors/imu.h>
+#include <imuoffset.h>
 
 
 messagebus_t bus;

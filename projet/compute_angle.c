@@ -38,7 +38,7 @@ static THD_FUNCTION(Estimator, arg) {
     // Angle de l'accéleromètre
     //  Accéléromètre --> Bruit élevé donc on ajoute un treshold
 
-    float threshold = 0.5f;
+    float threshold = 0.2f;
     float thresholddegre = 10;
     if((sqrtf(fabs(imu_values.acceleration[0])*fabs(imu_values.acceleration[0]) + fabs(imu_values.acceleration[1])*fabs(imu_values.acceleration[1])) > threshold )&& fabs(atan2(imu_values.acceleration[0], imu_values.acceleration[1]))*360/(2*M_PI)-thresholddegre>0)
     {

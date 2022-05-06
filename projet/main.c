@@ -81,7 +81,7 @@ int main(void)
     calibrate_acc();
 
     /*  Start the proximity sensors */
-    proximity_start();
+      proximity_start();
 
     /* Calibration of the ambient IR intensity */
     calibrate_ir();

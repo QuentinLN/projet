@@ -8,6 +8,7 @@
 #include <motors.h>
 #include <pi_regulator.h>
 #include <compute_angle.h>
+#include <src_prox.h>
 
 
 
@@ -41,6 +42,7 @@ int16_t pi_regulator(float angle, float goal){
     return (int16_t)speed;
 }
 
+//code adapted form TP4
 static THD_WORKING_AREA(waPiRegulator, 256);
 static THD_FUNCTION(PiRegulator, arg) {
 
@@ -49,7 +51,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 
     systime_t time;
 
-    int16_t speed = 800;
+    int16_t speed = 160;
     int16_t speed_correction = 0;
 
     while(1){
@@ -58,14 +60,31 @@ static THD_FUNCTION(PiRegulator, arg) {
         //computes the speed to give to the motors
         //distance_cm is modified by the image processing thread
 
-        speed_correction = pi_regulator(get_angle(), 0);
-        //chprintf((BaseSequentialStream *)&SD3, "%SPEED=%.d SPEEDCORRECTION=%.d,SPEEDCORRECTION=%.2f ,angle=%.d  \r\n\n",
-        //		speed, speed_correction,speed_correction,get_angle_degre());
+        speed_correction = pi_regulator(get_angle(), 0)/5;
+        chprintf((BaseSequentialStream *)&SD3, "%SPEED=%.d SPEEDCORRECTION=%.d,angle=%.d ,angle=%.2f  \r\n\n",
+        		speed, speed_correction,speed_correction,float get_angle());
+        if(isDetectedindirection(0)==1){
+        	//right_motor_set_speed(speed);
+        	//left_motor_set_speed(-speed);
+        	//chThdSleepMilliseconds(200);
+        } else if(isDetectedindirection(7)==1){
+        	//right_motor_set_speed(-speed);
+        	//left_motor_set_speed(speed);
+        	//chThdSleepMilliseconds(200);
 
-        //applies the speed from the PI regulator and the correction for the rotation
-        //right_motor_set_speed((speed - ROTATION_COEFF * speed_correction)/5);
-    	//left_motor_set_speed((speed + ROTATION_COEFF * speed_correction)/5);
-
+        } else if(isDetectedindirection(1)==1){
+        	//right_motor_set_speed(speed);
+        	//left_motor_set_speed(-speed);
+        	//chThdSleepMilliseconds(200);
+    	} else if(isDetectedindirection(6)==1){
+    		//right_motor_set_speed(-speed);
+        	//left_motor_set_speed(speed);
+    		//chThdSleepMilliseconds(200);
+    	} else{
+            //applies the speed from the PI regulator and the correction for the rotation
+            //right_motor_set_speed((speed - ROTATION_COEFF * speed_correction));
+        	//left_motor_set_speed((speed + ROTATION_COEFF * speed_correction));
+    	}
         //100Hz
         chThdSleepUntilWindowed(time, time + MS2ST(10));
 

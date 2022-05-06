@@ -7,6 +7,7 @@
 #include <main.h>
 #include <motors.h>
 #include <pi_regulator.h>
+#include <compute_angle.h>
 
 
 
@@ -57,7 +58,7 @@ static THD_FUNCTION(PiRegulator, arg) {
         //computes the speed to give to the motors
         //distance_cm is modified by the image processing thread
 
-        speed_correction = pi_regulator(get_angle_degre(), 0);
+        speed_correction = pi_regulator(get_angle(), 0);
         //chprintf((BaseSequentialStream *)&SD3, "%SPEED=%.d SPEEDCORRECTION=%.d,SPEEDCORRECTION=%.2f ,angle=%.d  \r\n\n",
         //		speed, speed_correction,speed_correction,get_angle_degre());
 

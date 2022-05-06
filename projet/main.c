@@ -13,6 +13,7 @@
 #include <usbcfg.h>
 #include <motors.h>
 #include <chprintf.h>
+#include <src_prox.h>
 
 #include "main.h"
 #include "motors.h"
@@ -79,12 +80,19 @@ int main(void)
     /* Calibration of the imu */
     calibrate_acc();
 
+    /*  Start the proximity sensors */
+    proximity_start();
+
+    /* Calibration of the ambient IR intensity */
+    calibrate_ir();
+
+    /* Start to compute the datas from the IR sensors */
+    proximity_compute_start();
+
     /* Init the motor */
 	motors_init();
 
-
-
-	//stars the threads for the pi regulator and compute angle
+	//stars the threads for the pi regulator and compute angle and front_led
 	pi_regulator_start();
 	compute_angle_start();
 	chThdCreateStatic(waThdFrontLed, sizeof(waThdFrontLed), NORMALPRIO, ThdFrontLed, NULL);

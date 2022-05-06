@@ -14,10 +14,6 @@
 #include "bus.h"
 #include "send.h"
 
-#define STANDARD_GRAVITY    9.80665f
-// Le temps de rafraichissement de l'IMU est quasi-constant (determiné empiriquement)
-// donc le temps est directement fixé à une constante pour réduire le nombre d'instructions
-
 static compute_angle_t compute_angle_values;
 
 float get_angle()

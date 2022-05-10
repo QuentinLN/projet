@@ -13,12 +13,12 @@
 #include <usbcfg.h>
 #include <motors.h>
 #include <chprintf.h>
+#include <pid_regulator.h>
 #include <src_prox.h>
 
 #include "main.h"
 #include "motors.h"
 #include "chprintf.h"
-#include "pi_regulator.h"
 #include "send.h"
 #include "compute_angle.h"
 

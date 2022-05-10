@@ -2,8 +2,8 @@
 #include <chvt.h>
 #include <hal.h>
 #include <math.h>
+#include <pid_regulator.h>
 #include <usbcfg.h>
-#include <pi_regulator.h>
 #include "sensors/imu.h"
 #include "sensors/proximity.h"
 

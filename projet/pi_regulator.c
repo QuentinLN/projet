@@ -9,7 +9,7 @@
 #include <compute_angle.h>
 #include <src_prox.h>
 
-
+static reg_param_t reg_param;
 
 /* Simple PI regulator implementation adapted from TP3 */
 int16_t pi_regulator(float angle, float goal){
@@ -35,6 +35,21 @@ int16_t pi_regulator(float angle, float goal){
 	}else if(sum_error < -MAX_SUM_ERROR){
 		sum_error = -MAX_SUM_ERROR;
 	}
+
+    angle_error_prev = angle_error;
+    angle_error = get_angle_x() - reg_param.setpoint;
+    reg_param.derivative = angle_error_prev - angle_error; // Compute the derivative
+    reg_param.integral += angle_error; // Compute the integral
+
+    // Limit the integral value if the command is saturated
+    if((reg_param.integral * reg_param.ki) > MOTOR_SPEED_LIMIT)
+      reg_param.integral = MOTOR_SPEED_LIMIT / reg_param.ki;
+    else if((reg_param.integral * reg_param.ki) < - MOTOR_SPEED_LIMIT)
+      reg_param.integral = - MOTOR_SPEED_LIMIT / reg_param.ki;
+
+
+    // Compute the speed command
+    commande = reg_param.kp * angle_error + reg_param.kd * reg_param.derivative + reg_param.ki * reg_param.integral;
 
 	speed = KP * error + KI * sum_error;
 

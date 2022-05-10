@@ -7,7 +7,7 @@ extern "C" {
 
 #include "msgbus/messagebus.h"
 
-/** Robot wide IPC bus. */
+/* Robot wide IPC bus. */
 extern messagebus_t bus;
 
 #ifdef __cplusplus

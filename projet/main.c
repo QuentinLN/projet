@@ -81,7 +81,7 @@ int main(void)
     calibrate_acc();
 
     /*  Start the proximity sensors */
-      proximity_start();
+    proximity_start();
 
     /* Calibration of the ambient IR intensity */
     calibrate_ir();
@@ -93,8 +93,8 @@ int main(void)
 	motors_init();
 
 	/* Starts the threads for the pi regulator and compute angle and front_led */
-	pi_regulator_start();
 	compute_angle_start();
+	pid_regulator_start();
 	chThdCreateStatic(waThdFrontLed, sizeof(waThdFrontLed), NORMALPRIO, ThdFrontLed, NULL);
 
 

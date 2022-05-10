@@ -5,6 +5,7 @@
 #include <pid_regulator.h>
 #include <usbcfg.h>
 #include "sensors/imu.h"
+#include <chprintf.h>
 #include "sensors/proximity.h"
 
 #include "motors.h"
@@ -77,6 +78,7 @@ static THD_FUNCTION(Compute_angle, arg) {
     {
     	angle=0;
     }
+    compute_angle_values.angle=angle;
   }
 }
 

@@ -1,7 +1,20 @@
-#ifndef PI_REGULATOR_H
-#define PI_REGULATOR_H
+#ifndef PID_REGULATOR_H
+#define PID_REGULATOR_H
 
-/* Starts the thread associated to the PIregulator that manages the motor */
-void pi_regulator_start(void);
+#define NB_SAMPLES 256
 
-#endif /* PI_REGULATOR_H */
+typedef struct {
+  float kp;
+  float kd;
+  float ki;
+
+  float integral;
+  float derivative;
+
+} reg_param_t;
+
+//start the PID regulator threads
+void pid_regulator_start(void);
+
+
+#endif /* PID_REGULATOR_H */

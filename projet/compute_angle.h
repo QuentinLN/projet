@@ -1,5 +1,5 @@
-#ifndef ESTIMATOR_H
-#define ESTIMATOR_H
+#ifndef COMPUTE_ANGLE_H
+#define COMPUTE_ANGLE_H
 
 typedef struct
 {
@@ -11,4 +11,4 @@ void compute_angle_start(void);
 /* Function that returns angle */
 float get_angle(void);
 
-#endif /* ESTIMATOR_H */
+#endif /* COMPUTE_ANGLE_H */

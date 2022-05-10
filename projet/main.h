@@ -16,13 +16,10 @@ extern "C" {
 
 
 #define ROTATION_THRESHOLD		10
-#define ROTATION_COEFF			0.1f
+#define ROTATION_COEFF			1.f
 #define GOAL_ROTATION			0f
 #define MAX_ROTATION			25.0f
 #define ERROR_THRESHOLD			3.0f	//[degre] because of the noise of the IMU
-#define KP						20.0f
-#define KI 						0.05f	//must not be zero
-#define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
 
 
 #define NB_SAMPLES_OFFSET       200

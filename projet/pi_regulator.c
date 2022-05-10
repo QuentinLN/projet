@@ -1,7 +1,6 @@
 #include "ch.h"
 #include "hal.h"
 #include <math.h>
-#include <chprintf.h>
 
 
 #include <main.h>
@@ -12,7 +11,7 @@
 
 
 
-//simple PI regulator implementation
+/* Simple PI regulator implementation adapted from TP3 */
 int16_t pi_regulator(float angle, float goal){
 
 	float error = 0;
@@ -42,7 +41,7 @@ int16_t pi_regulator(float angle, float goal){
     return (int16_t)speed;
 }
 
-//code adapted form TP4
+/* Thread associated to the PIregulator that manages the motor (code adapted form TP4) */
 static THD_WORKING_AREA(waPiRegulator, 256);
 static THD_FUNCTION(PiRegulator, arg) {
 
@@ -57,12 +56,8 @@ static THD_FUNCTION(PiRegulator, arg) {
     while(1){
         time = chVTGetSystemTime();
         
-        //computes the speed to give to the motors
-        //distance_cm is modified by the image processing thread
+        //computes the speed to give to the motors in function of the different thread (proximity sensors and compute angle)
 
-        speed_correction = pi_regulator(get_angle(), 0)/5;
-        chprintf((BaseSequentialStream *)&SD3, "%SPEED=%.d SPEEDCORRECTION=%.d,angle=%.d ,angle=%.2f  \r\n\n",
-        		speed, speed_correction,speed_correction,float get_angle());
         if(isDetectedindirection(0)==1){
         	//right_motor_set_speed(speed);
         	//left_motor_set_speed(-speed);
@@ -91,6 +86,7 @@ static THD_FUNCTION(PiRegulator, arg) {
     }
 }
 
+/* Starts the thread associated to the PIregulator that manages the motor */
 void pi_regulator_start(void){
 	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO, PiRegulator, NULL);
 }

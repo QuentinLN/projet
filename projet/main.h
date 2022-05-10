@@ -12,7 +12,7 @@ extern "C" {
 
 
 
-//constants for the differents parts of the project
+/* Constants for the different parts of the project */
 
 
 #define ROTATION_THRESHOLD		10
@@ -29,7 +29,7 @@ extern "C" {
 #define RES_2G                  2.0f
 #define MAX_INT16               32768.0f
 
-/** Robot wide IPC bus. */
+/* Robot wide IPC bus. */
 extern messagebus_t bus;
 
 extern parameter_namespace_t parameter_root;

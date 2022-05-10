@@ -43,7 +43,7 @@ static void timer11_start(void){
 }
 
 
-
+/* Start a thread that blinks the front led to show the direction of the epuck */
 static THD_WORKING_AREA(waThdFrontLed, 128);
 static THD_FUNCTION(ThdFrontLed, arg) {
 
@@ -89,10 +89,10 @@ int main(void)
     /* Start to compute the datas from the IR sensors */
     proximity_compute_start();
 
-    /* Init the motor */
+    /* Init the motors */
 	motors_init();
 
-	//stars the threads for the pi regulator and compute angle and front_led
+	/* Starts the threads for the pi regulator and compute angle and front_led */
 	pi_regulator_start();
 	compute_angle_start();
 	chThdCreateStatic(waThdFrontLed, sizeof(waThdFrontLed), NORMALPRIO, ThdFrontLed, NULL);

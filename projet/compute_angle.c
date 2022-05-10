@@ -3,7 +3,6 @@
 #include <hal.h>
 #include <math.h>
 #include <usbcfg.h>
-#include <chprintf.h>
 #include <pi_regulator.h>
 #include "sensors/imu.h"
 #include "sensors/proximity.h"
@@ -16,13 +15,14 @@
 
 static compute_angle_t compute_angle_values;
 
+/* Function that returns angle */
 float get_angle()
 {
   return compute_angle_values.angle;
 }
-
-static THD_WORKING_AREA(waEstimator, 256);
-static THD_FUNCTION(Estimator, arg) {
+/* Thread that computes angle and manages led to show gravity (code adapted from TP3) */
+static THD_WORKING_AREA(waCompute_angle, 256);
+static THD_FUNCTION(Compute_angle, arg) {
 
   messagebus_topic_t* imu_topic = (messagebus_topic_t*)arg;
   imu_msg_t imu_values;
@@ -31,13 +31,11 @@ static THD_FUNCTION(Estimator, arg) {
   float angle;
 
   while(true) {
-    // Attente des valeurs des prochaines valeurs de l'IMU
+    // Wait new values from IMU
     messagebus_topic_wait(imu_topic, &imu_values, sizeof(imu_values));
 
-
-    // Angle de l'accéleromètre
-    //  Accéléromètre --> Bruit élevé donc on ajoute un treshold
-
+    // Angle compute with acceleration
+    // Acceleration --> High noise so we need a threshold
     float threshold = 0.2f;
     float thresholddegre = 10;
     if((sqrtf(fabs(imu_values.acceleration[0])*fabs(imu_values.acceleration[0]) + fabs(imu_values.acceleration[1])*fabs(imu_values.acceleration[1])) > threshold )&& fabs(atan2(imu_values.acceleration[0], imu_values.acceleration[1]))*360/(2*M_PI)-thresholddegre>0)
@@ -70,7 +68,6 @@ static THD_FUNCTION(Estimator, arg) {
             led3 = 1;
         }
 		//to see the duration on the console
-		//chprintf((BaseSequentialStream *)&SD3, "time = %dus\n",time);
 		//we invert the values because a led is turned on if the signal is low
 		palWritePad(GPIOD, GPIOD_LED1, led1 ? 0 : 1);
 		palWritePad(GPIOD, GPIOD_LED3, led3 ? 0 : 1);
@@ -83,11 +80,12 @@ static THD_FUNCTION(Estimator, arg) {
   }
 }
 
+/* Start the thread that computes angle and manages led to show gravity */
 void compute_angle_start(void){
   messagebus_topic_t *imu_topic;
   imu_topic = messagebus_find_topic_blocking(&bus, "/imu");
 
   compute_angle_values.angle = 0.f;
 
-  chThdCreateStatic(waEstimator, sizeof(waEstimator), NORMALPRIO+2, Estimator, (void*)imu_topic);
+  chThdCreateStatic(waCompute_angle, sizeof(waCompute_angle), NORMALPRIO+2, Compute_angle, (void*)imu_topic);
 }

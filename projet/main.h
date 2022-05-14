@@ -16,7 +16,6 @@ extern "C" {
 
 
 #define ROTATION_THRESHOLD		10
-#define ROTATION_COEFF			1.f
 #define GOAL_ROTATION			0f
 #define MAX_ROTATION			25.0f
 #define ERROR_THRESHOLD			3.0f	//[degre] because of the noise of the IMU

@@ -59,25 +59,33 @@ static THD_FUNCTION(PIDRegulator, arg) {
 		speed_correction = reg_param.kp * angle_error + reg_param.kd * reg_param.derivative + reg_param.ki * reg_param.integral;
 
 		if(isDetectedindirection(0)==1){
-			//right_motor_set_speed(speed);
-			//left_motor_set_speed(-speed);
-			//chThdSleepMilliseconds(200);
+			right_motor_set_speed(speed);
+			left_motor_set_speed(-speed);
+			chThdSleepMilliseconds(500);
+			reg_param.integral=0;
+			reg_param.derivative =0;
 		} else if(isDetectedindirection(7)==1){
-			//right_motor_set_speed(-speed);
-			//left_motor_set_speed(speed);
-			//chThdSleepMilliseconds(200);
+			right_motor_set_speed(-speed);
+			left_motor_set_speed(speed);
+			chThdSleepMilliseconds(500);
+			reg_param.integral=0;
+			reg_param.derivative =0;
 		} else if(isDetectedindirection(1)==1){
-			//right_motor_set_speed(speed);
-			//left_motor_set_speed(-speed);
-			//chThdSleepMilliseconds(200);
+			right_motor_set_speed(speed);
+			left_motor_set_speed(-speed);
+			chThdSleepMilliseconds(500);
+			reg_param.integral=0;
+			reg_param.derivative =0;
 		} else if(isDetectedindirection(6)==1){
-			//right_motor_set_speed(-speed);
-			//left_motor_set_speed(speed);
-			//chThdSleepMilliseconds(200);
+			right_motor_set_speed(-speed);
+			left_motor_set_speed(speed);
+			chThdSleepMilliseconds(500);
+			reg_param.integral=0;
+			reg_param.derivative =0;
 		} else{
 			// limits the speed to the motors max speed
-			rightspeed=speed - ROTATION_COEFF * speed_correction;
-			leftspeed=speed + ROTATION_COEFF * speed_correction;
+			rightspeed=speed - speed_correction;
+			leftspeed=speed + speed_correction;
 			if(rightspeed > MOTOR_SPEED_LIMIT)
 				rightspeed = MOTOR_SPEED_LIMIT;
 			else if(rightspeed < -MOTOR_SPEED_LIMIT)
@@ -138,7 +146,7 @@ static THD_FUNCTION(PIDRegulatorSender, arg) {
 	}
 }
 
-
+// Start the 3 thread of regulator
 void pid_regulator_start(void){
   reg_param.kp = 2;
   reg_param.kd = 0.4 ;

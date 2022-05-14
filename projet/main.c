@@ -1,3 +1,18 @@
+/*
+ * main.c
+ *
+ *  Created on: 14 mai 2022
+ *  Author: Quentin Le Nézet
+ *
+ *  Description:
+ *	Fichier main du miniprojet Robot Climber
+
+ *
+ */
+
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

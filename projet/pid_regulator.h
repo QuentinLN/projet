@@ -1,3 +1,14 @@
+/*
+ * pid_regulator.h
+ *
+ *  Created on: 14 mai 2022
+ *  Author: Quentin Le Nézet
+ *
+ *
+ */
+
+
+
 #ifndef PID_REGULATOR_H
 #define PID_REGULATOR_H
 

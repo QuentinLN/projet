@@ -1,3 +1,18 @@
+/*
+ * receive.c
+ *
+ *  Created on: 14 mai 2022
+ *  Author: Quentin Le Nézet
+ *
+ *  Description:
+ *	Reçoit les données d'un ordinateur externe
+ *
+ */
+
+
+
+
+
 #include <ch.h>
 #include <hal.h>
 #include <usbcfg.h>

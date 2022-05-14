@@ -1,3 +1,18 @@
+/*
+ * pid_regulator.c
+ *
+ *  Created on: 14 mai 2022
+ *  Author: Quentin Le Nézet
+ *
+ *  Description:
+ *	Regulateur avec correcteur PID du miniprojet Robot Climber
+ *
+ */
+
+
+
+
+
 #include <ch.h>
 #include <hal.h>
 #include <math.h>

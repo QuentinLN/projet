@@ -1,3 +1,18 @@
+/*
+ * compute_angle.c
+ *
+ *  Created on: 14 mai 2022
+ *  Author: Quentin Le Nézet
+ *
+ *  Description:
+ *    Calcul la valeur de l'angle entre la direction du robot
+ *    et la direction de la pente
+
+ *
+ */
+
+
+
 #include <ch.h>
 #include <chvt.h>
 #include <hal.h>

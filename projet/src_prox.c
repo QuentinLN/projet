@@ -1,3 +1,17 @@
+/*
+ * src_prox.c
+ *
+ *  Created on: 14 mai 2022
+ *  Author: Quentin Le Nézet
+ *
+ *  Description:
+ *	Detecte les obstacles pour le miniprojet Robot Climber
+ *
+ */
+
+
+
+
 #include <ch.h>
 #include <hal.h>
 #include <math.h>

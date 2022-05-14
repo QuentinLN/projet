@@ -1,3 +1,10 @@
+/*
+ * compute_angle.h
+ *
+ *  Created on: 14 mai 2022
+ *  Author: Quentin Le Nézet
+ */
+
 #ifndef COMPUTE_ANGLE_H
 #define COMPUTE_ANGLE_H
 

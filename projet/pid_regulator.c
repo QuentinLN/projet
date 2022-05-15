@@ -120,7 +120,7 @@ static THD_FUNCTION(PIDRegulator, arg) {
 
 
 		//100Hz
-		chThdSleepUntilWindowed(time, time + MS2ST(10));
+		chThdSleepUntilWindowed(time, time + MS2ST(100));
     	}
     chBSemSignal(&sendToComputer_sem);
 	}

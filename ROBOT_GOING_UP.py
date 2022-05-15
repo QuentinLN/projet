@@ -62,19 +62,7 @@ def update_plot():
         fig.canvas.draw_idle()
         reader_thd.plot_updated()
 
-#function used to update the plot of the sinus
-def update_speed_plot(port):
-    
-    speed = readFloatSerial(port)
-    print('speed=',speed,len(speed))
-    if(len(speed) > 0):
-        speed_plot.set_ydata(speed[256:])
-                       
-        graph_speed.relim()
-        graph_speed.autoscale()
 
-        reader_thd.tell_to_update_plot()
-    
 
 #function used to update the plot of the FFT
 def update_angle_plot(port):
@@ -84,9 +72,12 @@ def update_angle_plot(port):
     if(len(angle_data)>0):
         
         angle_plot.set_ydata(angle_data[:256])
-        
+        speed_plot.set_ydata(angle_data[256:])       
         graph_angle.relim()
         graph_angle.autoscale()
+
+        graph_speed.relim()
+        graph_speed.autoscale()
 
         reader_thd.tell_to_update_plot()
 
@@ -210,7 +201,6 @@ class serial_thread(Thread):
         while(self.alive):
             if(self.contReceive):
                 update_angle_plot(self.port)
-                update_speed_plot(self.port)
             else:
                 #flush the serial
                 self.port.read(self.port.inWaiting())
@@ -272,14 +262,14 @@ fig.canvas.mpl_connect('close_event', handle_close) #to detect when the window i
 #speed graph config with initial plot
 graph_speed = plt.subplot(211)
 speed = np.zeros(n)
-speed_plot, = plt.plot([i/20 for i in range(len(speed))],speed, lw=1, color = 'red')
+speed_plot, = plt.plot([i/10 for i in range(len(speed))],speed, lw=1, color = 'red')
 plt.ylabel("speed_correction (step/s/degree)")
 plt.xlabel('t (s)')
 
 #angleeleration graph config with initial plot
 graph_angle = plt.subplot(212)
 angle_data = np.zeros(n)
-angle_plot, = plt.plot([i/100 for i in range(len(angle_data))],angle_data,lw=1, color='red')
+angle_plot, = plt.plot([i/10 for i in range(len(angle_data))],angle_data,lw=1, color='red')
 plt.ylabel("angle_error (degree)")
 plt.xlabel('t (s)')
 

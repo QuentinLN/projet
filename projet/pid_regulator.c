@@ -2,7 +2,7 @@
  * pid_regulator.c
  *
  *  Created on: 14 mai 2022
- *  Author: Quentin Le Nézet
+ *  Author: Quentin Le NÃ©zet
  *
  *  Description:
  *	Regulateur avec correcteur PID du miniprojet Robot Climber
@@ -119,8 +119,8 @@ static THD_FUNCTION(PIDRegulator, arg) {
 		send_tab[NB_SAMPLES+i] = speed_correction;
 
 
-		//100Hz
-		chThdSleepUntilWindowed(time, time + MS2ST(10));
+		//10Hz
+		chThdSleepUntilWindowed(time, time + MS2ST(100));
     	}
     chBSemSignal(&sendToComputer_sem);
 	}
@@ -139,7 +139,7 @@ static THD_FUNCTION(PIDRegulatorReader, arg) {
 		reg_param.kp = data[0];
 		reg_param.kd = data[1];
 		reg_param.ki = data[2];
-    // Reset de l'intégrale au cas ou
+    // Reset de l'intÃ©grale au cas ou
 		reg_param.integral = 0.f;
 
 		chThdSleepMilliseconds(1000);
